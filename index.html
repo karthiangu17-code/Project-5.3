@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>JS Day 1 Project</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{
+  box-sizing:border-box;
+  font-family:Arial, sans-serif;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:white;
+}
+
+/* common card */
+.page{
+  width:320px;
+  background:rgba(255,255,255,0.15);
+  padding:25px;
+  border-radius:14px;
+  text-align:center;
+  box-shadow:0 10px 25px rgba(0,0,0,0.4);
+  display:none;
+}
+
+.page.active{
+  display:block;
+}
+
+h2,h3{
+  margin-top:0;
+}
+
+button{
+  width:100%;
+  padding:12px;
+  margin-top:12px;
+  border:none;
+  border-radius:8px;
+  background:#00e5ff;
+  color:#000;
+  font-size:16px;
+  cursor:pointer;
+}
+
+button.back{
+  background:#ffb703;
+}
+
+input,select{
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  border:none;
+  border-radius:6px;
+}
+
+.result{
+  margin-top:10px;
+  font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HOME -->
+<div class="page active" id="home">
+  <h2>JS Day 1 Project</h2>
+  <button onclick="openPage('number')">Number Operations</button>
+  <button onclick="openPage('grade')">Grade Calculator</button>
+  <button onclick="openPage('calc')">Simple Calculator</button>
+</div>
+
+<!-- NUMBER -->
+<div class="page" id="number">
+  <h3>Number Operations</h3>
+  <input type="number" id="num" placeholder="Enter number">
+  <button onclick="numberCalc()">Calculate</button>
+  <div class="result" id="numResult"></div>
+  <button class="back" onclick="goHome()">⬅ Back</button>
+</div>
+
+<!-- GRADE -->
+<div class="page" id="grade">
+  <h3>Grade Calculator</h3>
+  <input type="number" id="marks" placeholder="Enter marks">
+  <button onclick="gradeCalc()">Check Grade</button>
+  <div class="result" id="gradeResult"></div>
+  <button class="back" onclick="goHome()">⬅ Back</button>
+</div>
+
+<!-- CALCULATOR -->
+<div class="page" id="calc">
+  <h3>Calculator</h3>
+  <input type="number" id="a" placeholder="First number">
+  <input type="number" id="b" placeholder="Second number">
+  <select id="op">
+    <option value="+">+</option>
+    <option value="-">-</option>
+    <option value="*">*</option>
+    <option value="/">/</option>
+  </select>
+  <button onclick="doCalc()">Result</button>
+  <div class="result" id="calcResult"></div>
+  <button class="back" onclick="goHome()">⬅ Back</button>
+</div>
+
+<script>
+const pages = document.querySelectorAll(".page");
+
+function openPage(id){
+  pages.forEach(p => p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+function goHome(){
+  openPage("home");
+}
+
+/* Number Operations */
+function numberCalc(){
+  const n = Number(num.value);
+  if(isNaN(n)) return;
+
+  let fact = 1;
+  for(let i=1;i<=n;i++) fact *= i;
+
+  numResult.innerHTML =
+    `Square: ${n*n}<br>Cube: ${n*n*n}<br>Factorial: ${fact}`;
+}
+
+/* Grade */
+function gradeCalc(){
+  const m = Number(marks.value);
+  let g =
+    m>=90 ? "Grade A" :
+    m>=75 ? "Grade B" :
+    m>=50 ? "Grade C" : "Fail";
+
+  gradeResult.innerText = g;
+}
+
+/* Calculator */
+function doCalc(){
+  const x = Number(a.value);
+  const y = Number(b.value);
+  const o = op.value;
+  let r = "";
+
+  if(o==="+") r = x+y;
+  else if(o==="-") r = x-y;
+  else if(o==="*") r = x*y;
+  else if(o==="/") r = y!==0 ? x/y : "Error";
+
+  calcResult.innerText = "Result: " + r;
+}
+
+/* SAFETY: always show home on reload */
+window.onload = goHome;
+</script>
+
+</body>
+</html>
